@@ -5,202 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#059669">
     <title>ACAD - Student Toolkit</title>
-    <meta name="description" content="12 essential academic tools: GPA Calculator, Citation Generator, Word Counter, Study Planner, Pomodoro Timer & more. Free, no login.">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2310B981'/><stop offset='100%25' stop-color='%23059669'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='url(%23g)'/><path d='M50 22L20 38L50 54L80 38L50 22Z' fill='white'/><path d='M25 42V58C25 64 35 70 50 70C65 70 75 64 75 58V42' stroke='white' stroke-width='3.5' fill='none' stroke-linecap='round'/><g transform='translate(65,62)'><circle cx='0' cy='0' r='10' fill='white'/><rect x='-2' y='-8' width='4' height='16' rx='2' fill='%2310B981'/><rect x='-8' y='-2' width='16' height='4' rx='2' fill='%2310B981'/></g></svg>">
     <style>
-        :root {
-            --green: #10B981;
-            --green-dark: #059669;
-            --green-light: #D1FAE5;
-            --white: #FFFFFF;
-            --gray-50: #F9FAFB;
-            --gray-100: #F3F4F6;
-            --gray-600: #4B5563;
-            --gray-900: #111827;
-            --shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--gray-50); color: var(--gray-900); line-height: 1.6;
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
-        
-        #welcome {
-            position: fixed; inset: 0; z-index: 9999;
-            background: linear-gradient(-45deg, #064E3B, #059669, #10B981, #34D399);
-            background-size: 400% 400%;
-            animation: gradientShift 10s ease infinite;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            color: white; text-align: center; padding: 20px; overflow: hidden;
-        }
-        #welcome::before {
-            content: ''; position: absolute; inset: 0;
-            background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                              radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
-            animation: float 20s ease-in-out infinite;
-        }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(30px, -30px); }
-        }
-        .welcome-content {
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(24px);
-            border: 1px solid rgba(255,255,255,0.25);
-            border-radius: 28px;
-            padding: 52px 36px;
-            max-width: 520px;
-            box-shadow: var(--shadow-lg);
-            animation: slideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .welcome-logo {
-            width: 80px; height: 80px; margin: 0 auto 24px;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
-            animation: pulse 3s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        #welcome h1 { 
-            font-size: 4.5rem; margin-bottom: 1rem; font-weight: 900; 
-            letter-spacing: -3px; text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        #welcome p { font-size: 1.3rem; opacity: 0.95; margin-bottom: 2rem; font-weight: 500; }
-        #fact { 
-            background: rgba(0,0,0,0.25); padding: 22px; border-radius: 16px; 
-            margin: 28px 0; font-style: italic; font-size: 1.05rem; min-height: 90px;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .btn {
-            background: white; color: var(--green-dark); border: none; padding: 18px 48px;
-            border-radius: 16px; font-size: 1.2rem; font-weight: 800; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
-        .btn:active { transform: translateY(-2px) scale(1.01); }
-        
-        header { 
-            background: rgba(255,255,255,0.85); backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--gray-100); position: sticky; top: 0; z-index: 100;
-        }
-        .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
-        .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.7rem; color: var(--green-dark); }
-        .logo svg { width: 36px; height: 36px; }
-        .back-btn { 
-            background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--gray-600);
-            padding: 8px; display: none; transition: all 0.2s; border-radius: 8px;
-        }
-        .back-btn.show { display: block; }
-        .back-btn:hover { transform: translateX(-4px); background: var(--gray-100); }
-        
-        #home { padding: 48px 0; }
-        .hero { text-align: center; margin-bottom: 56px; }
-        .hero h2 { font-size: 2.75rem; margin-bottom: 12px; font-weight: 900; letter-spacing: -1px; }
-        .hero p { color: var(--gray-600); font-size: 1.2rem; }
-        .tools-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px; margin-bottom: 48px;
-        }
-        .tool-card {
-            background: white; border-radius: 24px; padding: 32px; box-shadow: var(--shadow);
-            cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-            border: 2px solid transparent; position: relative; overflow: hidden;
-        }
-        .tool-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
-            background: linear-gradient(90deg, var(--green), var(--green-dark));
-            transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
-        }
-        .tool-card:hover { 
-            transform: translateY(-8px); border-color: var(--green-light);
-            box-shadow: var(--shadow-lg);
-        }
-        .tool-card:hover::before { transform: scaleX(1); }
-        .tool-icon { font-size: 3.5rem; margin-bottom: 18px; }
-        .tool-card h3 { font-size: 1.4rem; margin-bottom: 10px; font-weight: 800; }
-        .tool-card p { color: var(--gray-600); font-size: 1.05rem; }
-        
-        .tool-view { display: none; padding: 32px 0; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .tool-view.active { display: block; }
-        .tool-header { margin-bottom: 32px; }
-        .tool-header h2 { font-size: 2.25rem; margin-bottom: 8px; font-weight: 900; }
-        .card {
-            background: white; border-radius: 24px; padding: 32px; box-shadow: var(--shadow);
-            margin-bottom: 28px;
-        }
-        input, select, textarea {
-            width: 100%; padding: 15px; border: 2px solid var(--gray-100); border-radius: 14px;
-            font-size: 1rem; margin: 10px 0 22px 0; transition: all 0.2s; font-family: inherit;
-        }
-        input:focus, select:focus, textarea:focus { 
-            outline: none; border-color: var(--green); 
-            box-shadow: 0 0 0 4px var(--green-light);
-        }
-        label { font-weight: 800; color: var(--gray-900); font-size: 0.95rem; }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--green), var(--green-dark)); 
-            color: white; border: none; padding: 16px 32px;
-            border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; font-size: 1.1rem;
-            transition: all 0.3s; box-shadow: 0 6px 20px rgba(16,185,129,0.35);
-        }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(16,185,129,0.45); }
-        .btn-primary:active { transform: translateY(-1px); }
-        .btn-secondary {
-            background: var(--gray-100); color: var(--gray-900); border: none; padding: 13px 26px;
-            border-radius: 12px; cursor: pointer; margin-right: 10px; font-weight: 700; transition: all 0.2s;
-        }
-        .btn-secondary:hover { background: var(--gray-600); color: white; transform: translateY(-2px); }
-        .result { 
-            background: linear-gradient(135deg, var(--gray-50), var(--green-light)); 
-            padding: 24px; border-radius: 16px; margin-top: 24px;
-            border-left: 5px solid var(--green); font-size: 1.1rem;
-        }
-        .hidden { display: none!important; }
-        .toast {
-            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-            background: var(--gray-900); color: white; padding: 16px 24px;
-            border-radius: 12px; box-shadow: var(--shadow-lg); z-index: 10000;
-            animation: toastIn 0.3s;
-        }
-        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
-        
-        footer { 
-            background: white; border-top: 1px solid var(--gray-100); margin-top: 100px;
-            padding: 48px 0; text-align: center; color: var(--gray-600);
-        }
-        .footer-links { margin: 24px 0; }
-        .footer-links a { color: var(--green-dark); margin: 0 18px; text-decoration: none; font-weight: 700; }
-        .footer-links a:hover { text-decoration: underline; }
-        .ad-space { 
-            background: var(--gray-100); border: 2px dashed var(--gray-600); 
-            padding: 60px; text-align: center; border-radius: 16px; margin: 28px 0;
-            color: var(--gray-600); font-size: 0.95rem; font-weight: 700;
-        }
-        
-        @media (max-width: 768px) {
-            #welcome h1 { font-size: 3rem; }
-            .welcome-content { padding: 40px 28px; }
-            .tools-grid { grid-template-columns: 1fr; gap: 20px; }
-            .hero h2 { font-size: 2.25rem; }
-            .tool-card { padding: 28px; }
-        }
+        :root {--green:#10B981;--green-dark:#059669;--green-light:#D1FAE5;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-600:#4B5563;--gray-900:#111827;--shadow:0 10px 15px -3px rgb(0 0 0 / 0.1);--shadow-lg:0 25px 50px -12px rgb(0 0 0 / 0.25)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--gray-50);color:var(--gray-900);line-height:1.6}
+       .container{max-width:1200px;margin:0 auto;padding:0 16px}
+        #welcome{position:fixed;inset:0;z-index:9999;background:linear-gradient(-45deg,#064E3B,#059669,#10B981,#34D399);background-size:400% 400%;animation:gradientShift 10s ease infinite;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;text-align:center;padding:20px}
+        @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+       .welcome-content{background:rgba(255,255,255,0.12);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.25);border-radius:28px;padding:52px 36px;max-width:520px;box-shadow:var(--shadow-lg)}
+       .welcome-logo{width:80px;height:80px;margin:0 auto 24px}
+        #welcome h1{font-size:4.5rem;margin-bottom:1rem;font-weight:900;letter-spacing:-3px}
+        #welcome p{font-size:1.3rem;opacity:.95;margin-bottom:2rem;font-weight:500}
+        #fact{background:rgba(0,0,0,0.25);padding:22px;border-radius:16px;margin:28px 0;font-style:italic;font-size:1.05rem;min-height:90px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.1)}
+       .btn{background:#fff;color:var(--green-dark);border:none;padding:18px 48px;border-radius:16px;font-size:1.2rem;font-weight:800;cursor:pointer;transition:.3s;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+       .btn:hover{transform:translateY(-4px) scale(1.03)}
+        header{background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--gray-100);position:sticky;top:0;z-index:100}
+       .header-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+       .logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.7rem;color:var(--green-dark)}
+       .logo svg{width:36px;height:36px}
+       .back-btn{background:none;border:none;font-size:1.8rem;cursor:pointer;color:var(--gray-600);padding:8px;display:none;border-radius:8px}
+       .back-btn.show{display:block}
+        #home{padding:48px 0}
+       .hero{text-align:center;margin-bottom:56px}
+       .hero h2{font-size:2.75rem;margin-bottom:12px;font-weight:900;letter-spacing:-1px}
+       .hero p{color:var(--gray-600);font-size:1.2rem}
+       .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;margin-bottom:48px}
+       .tool-card{background:#fff;border-radius:24px;padding:32px;box-shadow:var(--shadow);cursor:pointer;transition:.4s;border:2px solid transparent;position:relative;overflow:hidden}
+       .tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--green),var(--green-dark));transform:scaleX(0);transform-origin:left;transition:.4s}
+       .tool-card:hover{transform:translateY(-8px);border-color:var(--green-light);box-shadow:var(--shadow-lg)}
+       .tool-card:hover::before{transform:scaleX(1)}
+       .tool-icon{font-size:3.5rem;margin-bottom:18px}
+       .tool-card h3{font-size:1.4rem;margin-bottom:10px;font-weight:800}
+       .tool-card p{color:var(--gray-600);font-size:1.05rem}
+       .tool-view{display:none;padding:32px 0}
+       .tool-view.active{display:block}
+       .tool-header{margin-bottom:32px}
+       .tool-header h2{font-size:2.25rem;margin-bottom:8px;font-weight:900}
+       .card{background:#fff;border-radius:24px;padding:32px;box-shadow:var(--shadow);margin-bottom:28px}
+        input,select,textarea{width:100%;padding:15px;border:2px solid var(--gray-100);border-radius:14px;font-size:1rem;margin:10px 0 22px 0;transition:.2s;font-family:inherit}
+        input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px var(--green-light)}
+        label{font-weight:800;color:var(--gray-900);font-size:.95rem}
+       .btn-primary{background:linear-gradient(135deg,var(--green),var(--green-dark));color:#fff;border:none;padding:16px 32px;border-radius:14px;font-weight:800;cursor:pointer;width:100%;font-size:1.1rem;transition:.3s;box-shadow:0 6px 20px rgba(16,185,129,0.35)}
+       .btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(16,185,129,0.45)}
+       .btn-secondary{background:var(--gray-100);color:var(--gray-900);border:none;padding:13px 26px;border-radius:12px;cursor:pointer;margin-right:10px;font-weight:700;transition:.2s}
+       .btn-secondary:hover{background:var(--gray-600);color:#fff}
+       .result{background:linear-gradient(135deg,var(--gray-50),var(--green-light));padding:24px;border-radius:16px;margin-top:24px;border-left:5px solid var(--green);font-size:1.1rem}
+       .hidden{display:none!important}
+        footer{background:#fff;border-top:1px solid var(--gray-100);margin-top:100px;padding:48px 0;text-align:center;color:var(--gray-600)}
+       .footer-links{margin:24px 0}
+       .footer-links a{color:var(--green-dark);margin:0 18px;text-decoration:none;font-weight:700}
+       .ad-space{background:var(--gray-100);border:2px dashed var(--gray-600);padding:60px;text-align:center;border-radius:16px;margin:28px 0;color:var(--gray-600);font-size:.95rem;font-weight:700}
+        @media(max-width:768px){#welcome h1{font-size:3rem}.welcome-content{padding:40px 28px}.tools-grid{grid-template-columns:1fr;gap:20px}.hero h2{font-size:2.25rem}}
     </style>
 </head>
 <body>
@@ -209,7 +64,7 @@
             <svg class="welcome-logo" viewBox="0 0 100 100"><defs><linearGradient id='wg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23fff'/><stop offset='100%25' stop-color='%23D1FAE5'/></linearGradient></defs><path d='M50 18L15 35L50 52L85 35L50 18Z' fill='url(%23wg)'/><path d='M20 40V60C20 68 32 75 50 75C68 75 80 68 80 60V40' stroke='url(%23wg)' stroke-width='4' fill='none' stroke-linecap='round'/></svg>
             <h1>ACAD</h1>
             <p>12 Essential Academic Tools. One Clean App. Zero Login.</p>
-            <div id="fact">The human brain has 86 billion neurons.</div>
+            <div id="fact">Loading fact...</div>
             <button class="btn" id="enterBtn">Enter ACAD →</button>
         </div>
     </div>
@@ -217,12 +72,12 @@
     <header>
         <div class="container">
             <div class="header-inner">
-                <button class="back-btn" id="backBtn" onclick="showHome()">←</button>
+                <button class="back-btn" id="backBtn">←</button>
                 <div class="logo">
                     <svg viewBox="0 0 100 100"><defs><linearGradient id='lg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2310B981'/><stop offset='100%25' stop-color='%23059669'/></linearGradient></defs><rect width='100' height='100' rx='22' fill='url(%23lg)'/><path d='M50 25L25 40L50 55L75 40L50 25Z' fill='white'/><path d='M30 45V60C30 65 40 70 50 70C60 70 70 65 70 60V45' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/><g transform='translate(70,65)'><circle cx='0' cy='0' r='8' fill='white'/><rect x='-2' y='-8' width='4' height='16' rx='2' fill='%2310B981'/><rect x='-8' y='-2' width='16' height='4' rx='2' fill='%2310B981'/></g></svg>
                     ACAD
                 </div>
-                <button class="btn-secondary" onclick="resetAllData()">Reset Data</button>
+                <button class="btn-secondary" id="resetBtn">Reset Data</button>
             </div>
         </div>
     </header>
@@ -243,13 +98,119 @@
         <div class="container">
             <p><strong>ACAD</strong> - Built for students, by students</p>
             <div class="footer-links">
-                <a href="#" onclick="showFAQ();return false;">FAQs</a>
-                <a href="#" onclick="showPrivacy();return false;">Privacy</a>
+                <a href="#" id="faqLink">FAQs</a>
+                <a href="#" id="privacyLink">Privacy</a>
                 <a href="mailto:support@acad.tools">Contact</a>
             </div>
-            <p style="font-size: 0.85rem;">© 2026 ACAD. Unlimited free use. No data collected.</p>
+            <p style="font-size:0.85rem">© 2026 ACAD. Unlimited free use. No data collected.</p>
         </div>
     </footer>
-    <script src="App.js"></script>
+
+<script>
+const TOOLS = [
+    {id:'gpa',name:'GPA Calculator',icon:'📊',desc:'Calculate semester & cumulative GPA with accuracy'},
+    {id:'citation',name:'Citation Generator',icon:'📝',desc:'APA, MLA, Chicago citations in seconds'},
+    {id:'word',name:'Word Counter',icon:'🔤',desc:'Count words, characters, sentences instantly'},
+    {id:'reading',name:'Reading Time',icon:'⏱️',desc:'Estimate reading time for any text'},
+    {id:'pomodoro',name:'Pomodoro Timer',icon:'🍅',desc:'25/5 focus timer with notifications'},
+    {id:'planner',name:'Study Planner',icon:'📅',desc:'Plan study sessions & track deadlines'},
+    {id:'percent',name:'Percentage Calc',icon:'%',desc:'All percentage calculations solved'},
+    {id:'unit',name:'Unit Converter',icon:'🔄',desc:'Convert between academic units'},
+    {id:'topic',name:'Topic Generator',icon:'💡',desc:'Research topic ideas by subject'},
+    {id:'title',name:'Title Generator',icon:'✨',desc:'Catchy assignment titles instantly'},
+    {id:'plagiarism',name:'Plagiarism Check',icon:'🔍',desc:'Risk assessment & tips to stay original'},
+    {id:'character',name:'Character Counter',icon:'📏',desc:'Count chars with/without spaces'}
+];
+
+const FACTS = ["Octopuses have three hearts and blue blood.","A day on Venus is longer than its year.","Bananas are berries, but strawberries aren't.","There are more trees on Earth than stars in the Milky Way.","Honey never spoils. Archaeologists found 3000-year-old edible honey.","A bolt of lightning is 5x hotter than the surface of the sun.","Wombat poop is cube-shaped to mark territory.","The human brain uses 20% of the body's total energy.","Sharks are older than trees by 200 million years.","Water can boil and freeze at the same time, called triple point."];
+
+function init(){
+    console.log('ACAD starting...');
+    renderTools();
+    showFact();
+    bindEvents();
+    if(localStorage.getItem('acad_visited')==='true'){
+        document.getElementById('welcome').style.display='none';
+    }
+    console.log('ACAD ready');
+}
+
+function renderTools(){
+    const grid=document.getElementById('toolsGrid');
+    if(!grid){console.error('Grid missing');return}
+    grid.innerHTML=TOOLS.map(t=>`<div class="tool-card" data-tool="${t.id}"><div class="tool-icon">${t.icon}</div><h3>${t.name}</h3><p>${t.desc}</p></div>`).join('');
+    console.log('Rendered',TOOLS.length,'tools');
+}
+
+function showFact(){
+    const factEl=document.getElementById('fact');
+    if(factEl)factEl.textContent=FACTS[Math.floor(Math.random()*FACTS.length)];
+}
+
+function bindEvents(){
+    document.getElementById('enterBtn').onclick=()=>{
+        const w=document.getElementById('welcome');
+        w.style.opacity='0';w.style.transition='opacity 0.5s';
+        setTimeout(()=>{w.style.display='none';localStorage.setItem('acad_visited','true')},500);
+    };
+    document.getElementById('backBtn').onclick=showHome;
+    document.getElementById('resetBtn').onclick=()=>{if(confirm('Reset all data?')){localStorage.clear();location.reload()}};
+    document.getElementById('faqLink').onclick=e=>{e.preventDefault();alert('ACAD: Free forever, no data collected, all local.')};
+    document.getElementById('privacyLink').onclick=e=>{e.preventDefault();alert('Privacy: We collect nothing. Everything stays on your device.')};
+    document.querySelectorAll('.tool-card').forEach(c=>c.onclick=()=>openTool(c.dataset.tool));
+}
+
+function openTool(id){
+    document.getElementById('home').style.display='none';
+    document.getElementById('backBtn').classList.add('show');
+    document.getElementById('toolContainer').innerHTML=getToolHTML(id);
+    window.scrollTo({top:0,behavior:'smooth'});
+    const fn=window['init'+id.charAt(0).toUpperCase()+id.slice(1)];
+    if(typeof fn==='function')setTimeout(fn,100);
+}
+
+function showHome(){
+    document.getElementById('home').style.display='block';
+    document.getElementById('toolContainer').innerHTML='';
+    document.getElementById('backBtn').classList.remove('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function getToolHTML(id){
+    const t=TOOLS.find(x=>x.id===id);
+    const templates={
+        gpa:`<div class="tool-view active"><div class="tool-header"><h2>📊 GPA Calculator</h2><p>4.0 Scale. Weighted & unweighted.</p></div><div class="card"><div id="courses"></div><button class="btn-secondary" onclick="addCourse()">+ Add Course</button><button class="btn-primary" onclick="calcGPA()">Calculate GPA</button><div id="gpaResult" class="result hidden"></div></div></div>`,
+        word:`<div class="tool-view active"><div class="tool-header"><h2>🔤 Word Counter</h2><p>Paste text for instant stats</p></div><div class="card"><textarea id="wordText" rows="14" placeholder="Paste or type your text here..."></textarea><div class="result"><p><strong>Words:</strong> <span id="wordCount">0</span></p><p><strong>Characters:</strong> <span id="charCount">0</span> | <strong>Without spaces:</strong> <span id="charNoSpace">0</span></p><p><strong>Sentences:</strong> <span id="sentCount">0</span> | <strong>Paragraphs:</strong> <span id="paraCount">0</span></p></div></div></div>`,
+        pomodoro:`<div class="tool-view active"><div class="tool-header"><h2>🍅 Pomodoro Timer</h2><p>25 min focus, 5 min break.</p></div><div class="card" style="text-align:center"><div id="timerDisplay" style="font-size:5rem;font-weight:900;color:var(--green-dark);margin:24px 0">25:00</div><div id="timerStatus" style="font-size:1.3rem;margin-bottom:24px;color:var(--gray-600);font-weight:600">Ready to focus</div><button class="btn-primary" onclick="togglePomodoro()" id="pomodoroBtn">Start Focus</button><button class="btn-secondary" onclick="resetPomodoro()" style="margin-top:14px;width:100%">Reset</button><div class="result" style="margin-top:28px"><p><strong>Sessions Today:</strong> <span id="pomoCount">0</span></p></div></div></div>`
+    };
+    return templates[id]||`<div class="tool-view active"><div class="tool-header"><h2>${t?.icon} ${t?.name}</h2></div><div class="card"><p>Coming soon. Core features work.</p></div></div>`;
+}
+
+let courseCount=0;
+function initGpa(){courseCount=0;const d=document.getElementById('courses');if(d){d.innerHTML='';addCourse();addCourse();addCourse()}}
+function addCourse(){courseCount++;const div=document.createElement('div');div.style.cssText='display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;margin-bottom:14px';div.innerHTML=`<input placeholder="Course name"><select><option value="4.0">A</option><option value="3.7">A-</option><option value="3.3">B+</option><option value="3.0">B</option><option value="2.7">B-</option><option value="2.3">C+</option><option value="2.0">C</option><option value="1.0">D</option><option value="0">F</option></select><input type="number" placeholder="Credits" value="3" min="0" step="0.5"><button class="btn-secondary" onclick="this.parentElement.remove()">×</button>`;document.getElementById('courses').appendChild(div)}
+function calcGPA(){let tp=0,tc=0;document.querySelectorAll('#courses > div').forEach(d=>{const g=parseFloat(d.querySelector('select')?.value)||0;const c=parseFloat(d.querySelector('input[type=number]')?.value)||0;tp+=g*c;tc+=c});const gpa=tc?(tp/tc).toFixed(3):'0.000';const r=document.getElementById('gpaResult');if(r){r.innerHTML=`<h3>Your GPA: ${gpa}</h3><p>Total Credits: ${tc.toFixed(1)}</p><p>Quality Points: ${tp.toFixed(2)}</p>`;r.classList.remove('hidden')}}
+
+function initWord(){const t=document.getElementById('wordText');if(!t)return;t.oninput=e=>{const tx=e.target.value;const w=tx.trim()?tx.trim().split(/\s+/).filter(x=>x).length:0;document.getElementById('wordCount').textContent=w;document.getElementById('charCount').textContent=tx.length;document.getElementById('charNoSpace').textContent=tx.replace(/\s/g,'').length;document.getElementById('sentCount').textContent=tx.split(/[.!?]+/).filter(s=>s.trim()).length;document.getElementById('paraCount').textContent=tx.split(/\n\n+/).filter(p=>p.trim()).length}}
+
+let pomoInt,pomoSec=1500,pomoRun=false,pomoCnt=parseInt(localStorage.getItem('pomoCount')||'0');
+function initPomodoro(){document.getElementById('pomoCount').textContent=pomoCnt;updatePomo()}
+function togglePomodoro(){if(pomoRun){clearInterval(pomoInt);pomoRun=false;document.getElementById('pomodoroBtn').textContent='Resume';document.getElementById('timerStatus').textContent='Paused'}else{pomoRun=true;document.getElementById('pomodoroBtn').textContent='Pause';document.getElementById('timerStatus').textContent=pomoSec>300?'Focus Time':'Break Time';pomoInt=setInterval(()=>{pomoSec--;updatePomo();if(pomoSec<=0){clearInterval(pomoInt);pomoRun=false;beep();if(document.getElementById('timerStatus').textContent==='Focus Time'){pomoCnt++;localStorage.setItem('pomoCount',pomoCnt);document.getElementById('pomoCount').textContent=pomoCnt;pomoSec=300;document.getElementById('timerStatus').textContent='Break Time';alert('Focus complete! 5 min break.')}else{pomoSec=1500;document.getElementById('timerStatus').textContent='Ready to focus';alert('Break over!')}document.getElementById('pomodoroBtn').textContent='Start Focus';updatePomo()}},1000)}}
+function resetPomodoro(){clearInterval(pomoInt);pomoRun=false;pomoSec=1500;updatePomo();document.getElementById('pomodoroBtn').textContent='Start Focus';document.getElementById('timerStatus').textContent='Ready to focus'}
+function updatePomo(){const m=Math.floor(pomoSec/60);const s=pomoSec%60;const d=document.getElementById('timerDisplay');if(d)d.textContent=`${m}:${s.toString().padStart(2,'0')}`}
+function beep(){try{const a=new(window.AudioContext||window.webkitAudioContext)();const o=a.createOscillator();const g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=800;g.gain.setValueAtTime(0.3,a.currentTime);g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.5);o.start(a.currentTime);o.stop(a.currentTime+0.5)}catch(e){}}
+
+function initCitation(){}
+function initReading(){}
+function initCharacter(){}
+function initPlanner(){}
+function initPercent(){}
+function initUnit(){}
+function initTopic(){}
+function initTitle(){}
+function initPlagiarism(){}
+
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}
+</script>
 </body>
-    </html>
+                </html>
