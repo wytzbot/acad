@@ -84,13 +84,42 @@ function showToast(msg) {
     setTimeout(() => toast.remove(), 3000);
 }
 
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     renderToolGrid();
     setTimeout(showRandomFact, 100);
-    if (safeLocalStorageGet('acad_visited', '') === 'true') {
-        const welcome = document.getElementById('welcome');
-        if (welcome) welcome.style.display = 'none';
+    
+    const enterBtn = document.getElementById('enterBtn');
+    if (enterBtn) {
+        enterBtn.addEventListener('click', skipWelcome);
     }
+    
+    // Hide welcome if visited before
+    try {
+        if (localStorage.getItem('acad_visited') === 'true') {
+            const welcome = document.getElementById('welcome');
+            if (welcome) welcome.style.display = 'none';
+        }
+    } catch(e) {
+        console.log('localStorage blocked');
+    }
+});
+
+function skipWelcome() {
+    const welcome = document.getElementById('welcome');
+    if (!welcome) return;
+    
+    welcome.style.opacity = '0';
+    welcome.style.transition = 'opacity 0.5s ease';
+    
+    setTimeout(() => {
+        welcome.style.display = 'none';
+        try { 
+            localStorage.setItem('acad_visited', 'true'); 
+        } catch(e) {
+            console.log('localStorage blocked');
+        }
+    }, 500);
+}
 });
 
 function skipWelcome() {
