@@ -26,7 +26,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--gray-50); color: var(--gray-900); line-height: 1.6;
         }
-       .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
         
         #welcome {
             position: fixed; inset: 0; z-index: 9999;
@@ -51,7 +51,7 @@
             0%, 100% { transform: translate(0, 0); }
             50% { transform: translate(30px, -30px); }
         }
-       .welcome-content {
+        .welcome-content {
             background: rgba(255,255,255,0.12);
             backdrop-filter: blur(24px);
             border: 1px solid rgba(255,255,255,0.25);
@@ -66,7 +66,7 @@
             from { opacity: 0; transform: translateY(40px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
-       .welcome-logo {
+        .welcome-logo {
             width: 80px; height: 80px; margin: 0 auto 24px;
             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
             animation: pulse 3s ease-in-out infinite;
@@ -86,62 +86,62 @@
             display: flex; align-items: center; justify-content: center;
             border: 1px solid rgba(255,255,255,0.1);
         }
-       .btn {
+        .btn {
             background: white; color: var(--green-dark); border: none; padding: 18px 48px;
             border-radius: 16px; font-size: 1.2rem; font-weight: 800; cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-       .btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
-       .btn:active { transform: translateY(-2px) scale(1.01); }
+        .btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+        .btn:active { transform: translateY(-2px) scale(1.01); }
         
         header { 
             background: rgba(255,255,255,0.85); backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--gray-100); position: sticky; top: 0; z-index: 100;
         }
-       .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
-       .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.7rem; color: var(--green-dark); }
-       .logo svg { width: 36px; height: 36px; }
-       .back-btn { 
+        .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.7rem; color: var(--green-dark); }
+        .logo svg { width: 36px; height: 36px; }
+        .back-btn { 
             background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--gray-600);
             padding: 8px; display: none; transition: all 0.2s; border-radius: 8px;
         }
-       .back-btn.show { display: block; }
-       .back-btn:hover { transform: translateX(-4px); background: var(--gray-100); }
+        .back-btn.show { display: block; }
+        .back-btn:hover { transform: translateX(-4px); background: var(--gray-100); }
         
         #home { padding: 48px 0; }
-       .hero { text-align: center; margin-bottom: 56px; }
-       .hero h2 { font-size: 2.75rem; margin-bottom: 12px; font-weight: 900; letter-spacing: -1px; }
-       .hero p { color: var(--gray-600); font-size: 1.2rem; }
-       .tools-grid {
+        .hero { text-align: center; margin-bottom: 56px; }
+        .hero h2 { font-size: 2.75rem; margin-bottom: 12px; font-weight: 900; letter-spacing: -1px; }
+        .hero p { color: var(--gray-600); font-size: 1.2rem; }
+        .tools-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 28px; margin-bottom: 48px;
         }
-       .tool-card {
+        .tool-card {
             background: white; border-radius: 24px; padding: 32px; box-shadow: var(--shadow);
             cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
             border: 2px solid transparent; position: relative; overflow: hidden;
         }
-       .tool-card::before {
+        .tool-card::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
             background: linear-gradient(90deg, var(--green), var(--green-dark));
             transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
         }
-       .tool-card:hover { 
+        .tool-card:hover { 
             transform: translateY(-8px); border-color: var(--green-light);
             box-shadow: var(--shadow-lg);
         }
-       .tool-card:hover::before { transform: scaleX(1); }
-       .tool-icon { font-size: 3.5rem; margin-bottom: 18px; }
-       .tool-card h3 { font-size: 1.4rem; margin-bottom: 10px; font-weight: 800; }
-       .tool-card p { color: var(--gray-600); font-size: 1.05rem; }
+        .tool-card:hover::before { transform: scaleX(1); }
+        .tool-icon { font-size: 3.5rem; margin-bottom: 18px; }
+        .tool-card h3 { font-size: 1.4rem; margin-bottom: 10px; font-weight: 800; }
+        .tool-card p { color: var(--gray-600); font-size: 1.05rem; }
         
-       .tool-view { display: none; padding: 32px 0; animation: fadeIn 0.5s; }
+        .tool-view { display: none; padding: 32px 0; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-       .tool-view.active { display: block; }
-       .tool-header { margin-bottom: 32px; }
-       .tool-header h2 { font-size: 2.25rem; margin-bottom: 8px; font-weight: 900; }
-       .card {
+        .tool-view.active { display: block; }
+        .tool-header { margin-bottom: 32px; }
+        .tool-header h2 { font-size: 2.25rem; margin-bottom: 8px; font-weight: 900; }
+        .card {
             background: white; border-radius: 24px; padding: 32px; box-shadow: var(--shadow);
             margin-bottom: 28px;
         }
@@ -154,26 +154,26 @@
             box-shadow: 0 0 0 4px var(--green-light);
         }
         label { font-weight: 800; color: var(--gray-900); font-size: 0.95rem; }
-       .btn-primary {
+        .btn-primary {
             background: linear-gradient(135deg, var(--green), var(--green-dark)); 
             color: white; border: none; padding: 16px 32px;
             border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%; font-size: 1.1rem;
             transition: all 0.3s; box-shadow: 0 6px 20px rgba(16,185,129,0.35);
         }
-       .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(16,185,129,0.45); }
-       .btn-primary:active { transform: translateY(-1px); }
-       .btn-secondary {
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(16,185,129,0.45); }
+        .btn-primary:active { transform: translateY(-1px); }
+        .btn-secondary {
             background: var(--gray-100); color: var(--gray-900); border: none; padding: 13px 26px;
             border-radius: 12px; cursor: pointer; margin-right: 10px; font-weight: 700; transition: all 0.2s;
         }
-       .btn-secondary:hover { background: var(--gray-600); color: white; transform: translateY(-2px); }
-       .result { 
+        .btn-secondary:hover { background: var(--gray-600); color: white; transform: translateY(-2px); }
+        .result { 
             background: linear-gradient(135deg, var(--gray-50), var(--green-light)); 
             padding: 24px; border-radius: 16px; margin-top: 24px;
             border-left: 5px solid var(--green); font-size: 1.1rem;
         }
-       .hidden { display: none!important; }
-       .toast {
+        .hidden { display: none!important; }
+        .toast {
             position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
             background: var(--gray-900); color: white; padding: 16px 24px;
             border-radius: 12px; box-shadow: var(--shadow-lg); z-index: 10000;
@@ -185,10 +185,10 @@
             background: white; border-top: 1px solid var(--gray-100); margin-top: 100px;
             padding: 48px 0; text-align: center; color: var(--gray-600);
         }
-       .footer-links { margin: 24px 0; }
-       .footer-links a { color: var(--green-dark); margin: 0 18px; text-decoration: none; font-weight: 700; }
-       .footer-links a:hover { text-decoration: underline; }
-       .ad-space { 
+        .footer-links { margin: 24px 0; }
+        .footer-links a { color: var(--green-dark); margin: 0 18px; text-decoration: none; font-weight: 700; }
+        .footer-links a:hover { text-decoration: underline; }
+        .ad-space { 
             background: var(--gray-100); border: 2px dashed var(--gray-600); 
             padding: 60px; text-align: center; border-radius: 16px; margin: 28px 0;
             color: var(--gray-600); font-size: 0.95rem; font-weight: 700;
@@ -196,10 +196,10 @@
         
         @media (max-width: 768px) {
             #welcome h1 { font-size: 3rem; }
-           .welcome-content { padding: 40px 28px; }
-           .tools-grid { grid-template-columns: 1fr; gap: 20px; }
-           .hero h2 { font-size: 2.25rem; }
-           .tool-card { padding: 28px; }
+            .welcome-content { padding: 40px 28px; }
+            .tools-grid { grid-template-columns: 1fr; gap: 20px; }
+            .hero h2 { font-size: 2.25rem; }
+            .tool-card { padding: 28px; }
         }
     </style>
 </head>
@@ -210,7 +210,8 @@
             <h1>ACAD</h1>
             <p>12 Essential Academic Tools. One Clean App. Zero Login.</p>
             <div id="fact">The human brain has 86 billion neurons.</div>
-            
+            <button class="btn" id="enterBtn">Enter ACAD →</button>
+        </div>
     </div>
 
     <header>
