@@ -25,25 +25,82 @@ const FACTS = [
     "Sharks are older than trees by 200 million years.",
     "Water can boil and freeze at the same time, called triple point.",
     "Your stomach gets a new lining every 3-4 days.",
-    "A group of flamingos is called a flamboyance."
+    "A group of flamingos is called a flamboyance.",
+    "Sloths can hold their breath longer than dolphins - up to 40 minutes.",
+    "The Eiffel Tower grows 6 inches in summer due to heat expansion.",
+    "Cleopatra lived closer to the iPhone than to the pyramids.",
+    "An ant can lift 50 times its body weight.",
+    "Neutron stars are so dense a teaspoon would weigh 6 billion tons.",
+    "Humans share 60% of DNA with bananas.",
+    "The shortest war in history lasted 38 minutes.",
+    "A cloud can weigh over a million pounds.",
+    "Turtles can breathe through their butts.",
+    "Hot water freezes faster than cold water, called the Mpemba effect.",
+    "The heart of a blue whale is the size of a small car.",
+    "Butterflies taste with their feet.",
+    "Saturn's moon Titan has lakes of liquid methane.",
+    "You can't hum while holding your nose.",
+    "The smell of rain is called petrichor.",
+    "Dolphins have names for each other.",
+    "A jiffy is an actual unit of time: 1/100th of a second.",
+    "The Great Wall of China isn't visible from space with the naked eye.",
+    "Giraffes have the same number of neck bones as humans: 7.",
+    "Jupiter has 95 known moons.",
+    "A single strand of spaghetti is called a spaghetto.",
+    "The human nose can detect over 1 trillion smells.",
+    "Vikings never wore horned helmets.",
+    "Lightning strikes Earth 100 times per second.",
+    "The average person walks the equivalent of 5 times around Earth in a lifetime.",
+    "Peanuts aren't nuts - they're legumes.",
+    "A shrimp's heart is in its head.",
+    "The longest hiccup spell lasted 68 years.",
+    "Fingernails grow 4x faster than toenails.",
+    "The Moon is moving away from Earth at 1.5 inches per year.",
+    "Cows have best friends and get stressed when separated.",
+    "The first computer bug was an actual moth found in 1947.",
+    "Mars has the largest volcano in the solar system: Olympus Mons.",
+    "Your brain generates 25 watts of power - enough to light a bulb.",
+    "An octopus has 9 brains: one central and 8 in each arm.",
+    "The coldest temperature possible is -273.15°C, called absolute zero.",
+    "Bees can recognize human faces.",
+    "The Universe is 93 billion light-years across."
 ];
 
-// FIXED: Init with proper timing
+function safeLocalStorageGet(key, fallback) {
+    try { return localStorage.getItem(key) || fallback; }
+    catch(e) { return fallback; }
+}
+
+function safeLocalStorageSet(key, value) {
+    try { localStorage.setItem(key, value); }
+    catch(e) { console.log('localStorage blocked'); }
+}
+
+function showToast(msg) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
 window.addEventListener('load', () => {
     renderToolGrid();
-    showRandomFact();
-    if (localStorage.getItem('acad_visited') === 'true') {
-        document.getElementById('welcome').style.display = 'none';
+    setTimeout(showRandomFact, 100);
+    if (safeLocalStorageGet('acad_visited', '') === 'true') {
+        const welcome = document.getElementById('welcome');
+        if (welcome) welcome.style.display = 'none';
     }
 });
 
 function skipWelcome() {
     const welcome = document.getElementById('welcome');
+    if (!welcome) return;
     welcome.style.opacity = '0';
     welcome.style.transition = 'opacity 0.5s';
     setTimeout(() => {
         welcome.style.display = 'none';
-        localStorage.setItem('acad_visited', 'true');
+        safeLocalStorageSet('acad_visited', 'true');
     }, 500);
 }
 
@@ -68,7 +125,8 @@ function renderToolGrid() {
 
 function openTool(id) {
     document.getElementById('home').style.display = 'none';
-    document.getElementById('backBtn').classList.add('show');
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) backBtn.classList.add('show');
     const container = document.getElementById('toolContainer');
     container.innerHTML = getToolHTML(id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -79,18 +137,18 @@ function openTool(id) {
 function showHome() {
     document.getElementById('home').style.display = 'block';
     document.getElementById('toolContainer').innerHTML = '';
-    document.getElementById('backBtn').classList.remove('show');
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) backBtn.classList.remove('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function resetAllData() {
     if (confirm('Reset all saved data? This cannot be undone.')) {
-        localStorage.clear();
+        try { localStorage.clear(); } catch(e) {}
         location.reload();
     }
 }
 
-// TOOL HTML - All 12 tools mapped
 function getToolHTML(id) {
     const templates = {
         gpa: `
@@ -173,22 +231,22 @@ function getToolHTML(id) {
         </div>`
     };
     
-    // Stub for remaining tools
+    const tool = TOOLS.find(t=>t.id===id);
     const comingSoon = `
         <div class="tool-view active">
-            <div class="tool-header"><h2>${TOOLS.find(t=>t.id===id)?.icon} ${TOOLS.find(t=>t.id===id)?.name}</h2></div>
+            <div class="tool-header"><h2>${tool?.icon} ${tool?.name}</h2></div>
             <div class="card"><p>This tool is being finalized. Core features work. Check back for updates.</p></div>
         </div>`;
     
     return templates[id] || comingSoon;
 }
 
-// GPA - Fixed
-let courseCount = 0;
-function initGpa() {
     courseCount = 0;
-    document.getElementById('courses').innerHTML = '';
-    addCourse(); addCourse(); addCourse();
+    const coursesDiv = document.getElementById('courses');
+    if (coursesDiv) {
+        coursesDiv.innerHTML = '';
+        addCourse(); addCourse(); addCourse();
+    }
 }
 function addCourse() {
     courseCount++;
@@ -203,76 +261,107 @@ function addCourse() {
         </select>
         <input type="number" placeholder="Credits" id="credit${courseCount}" value="3" min="0" step="0.5">
         <button class="btn-secondary" onclick="this.parentElement.remove()">×</button>`;
-    document.getElementById('courses').appendChild(div);
+    const coursesDiv = document.getElementById('courses');
+    if (coursesDiv) coursesDiv.appendChild(div);
 }
 function calcGPA() {
     let totalPoints = 0, totalCredits = 0;
     document.querySelectorAll('#courses > div').forEach(div => {
-        const grade = parseFloat(div.querySelector('select').value) || 0;
-        const credits = parseFloat(div.querySelector('input[type=number]').value) || 0;
+        const grade = parseFloat(div.querySelector('select')?.value) || 0;
+        const credits = parseFloat(div.querySelector('input[type=number]')?.value) || 0;
         totalPoints += grade * credits;
         totalCredits += credits;
     });
     const gpa = totalCredits ? (totalPoints / totalCredits).toFixed(3) : '0.000';
     const result = document.getElementById('gpaResult');
-    result.innerHTML = `<h3>Your GPA: ${gpa}</h3><p>Total Credits: ${totalCredits.toFixed(1)}</p><p>Quality Points: ${totalPoints.toFixed(2)}</p>`;
-    result.classList.remove('hidden');
+    if (result) {
+        result.innerHTML = `<h3>Your GPA: ${gpa}</h3><p>Total Credits: ${totalCredits.toFixed(1)}</p><p>Quality Points: ${totalPoints.toFixed(2)}</p>`;
+        result.classList.remove('hidden');
+    }
 }
 
-// WORD COUNTER - Fixed
 function initWord() {
     const textArea = document.getElementById('wordText');
     if (!textArea) return;
     textArea.addEventListener('input', e => {
         const text = e.target.value;
         const words = text.trim() ? text.trim().split(/\s+/).filter(w => w).length : 0;
-        document.getElementById('wordCount').textContent = words;
-        document.getElementById('charCount').textContent = text.length;
-        document.getElementById('charNoSpace').textContent = text.replace(/\s/g, '').length;
-        document.getElementById('sentCount').textContent = text.split(/[.!?]+/).filter(s => s.trim()).length;
-        document.getElementById('paraCount').textContent = text.split(/\n\n+/).filter(p => p.trim()).length;
+        const charEl = document.getElementById('charCount');
+        const charNoSpaceEl = document.getElementById('charNoSpace');
+        const wordEl = document.getElementById('wordCount');
+        const sentEl = document.getElementById('sentCount');
+        const paraEl = document.getElementById('paraCount');
+        const readLevelEl = document.getElementById('readLevel');
+        
+        if (wordEl) wordEl.textContent = words;
+        if (charEl) charEl.textContent = text.length;
+        if (charNoSpaceEl) charNoSpaceEl.textContent = text.replace(/\s/g, '').length;
+        if (sentEl) sentEl.textContent = text.split(/[.!?]+/).filter(s => s.trim()).length;
+        if (paraEl) paraEl.textContent = text.split(/\n\n+/).filter(p => p.trim()).length;
+        
         const avgWordLen = words ? text.replace(/\s/g, '').length / words : 0;
-        document.getElementById('readLevel').textContent = avgWordLen > 5.5 ? 'College' : avgWordLen > 4.5 ? 'High School' : 'General';
+        if (readLevelEl) readLevelEl.textContent = avgWordLen > 5.5 ? 'College' : avgWordLen > 4.5 ? 'High School' : 'General';
     });
 }
 
-// POMODORO - Fixed
 let pomoInterval, pomoSeconds = 1500, pomoRunning = false;
-let pomoCount = parseInt(localStorage.getItem('pomoCount') || '0');
+let pomoCount = parseInt(safeLocalStorageGet('pomoCount', '0'));
 function initPomodoro() {
-    document.getElementById('pomoCount').textContent = pomoCount;
+    const countEl = document.getElementById('pomoCount');
+    if (countEl) countEl.textContent = pomoCount;
     updatePomoDisplay();
+}
+function playBeep() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+    } catch(e) { console.log('Audio blocked'); }
 }
 function togglePomodoro() {
     if (pomoRunning) {
         clearInterval(pomoInterval);
         pomoRunning = false;
-        document.getElementById('pomodoroBtn').textContent = 'Resume';
-        document.getElementById('timerStatus').textContent = 'Paused';
+        const btn = document.getElementById('pomodoroBtn');
+        const status = document.getElementById('timerStatus');
+        if (btn) btn.textContent = 'Resume';
+        if (status) status.textContent = 'Paused';
     } else {
         pomoRunning = true;
-        document.getElementById('pomodoroBtn').textContent = 'Pause';
-        document.getElementById('timerStatus').textContent = pomoSeconds > 300 ? 'Focus Time' : 'Break Time';
+        const btn = document.getElementById('pomodoroBtn');
+        const status = document.getElementById('timerStatus');
+        if (btn) btn.textContent = 'Pause';
+        if (status) status.textContent = pomoSeconds > 300 ? 'Focus Time' : 'Break Time';
         pomoInterval = setInterval(() => {
             pomoSeconds--;
             updatePomoDisplay();
             if (pomoSeconds <= 0) {
                 clearInterval(pomoInterval);
                 pomoRunning = false;
-                if (document.getElementById('timerStatus').textContent === 'Focus Time') {
+                playBeep();
+                
+                if (status && status.textContent === 'Focus Time') {
                     pomoCount++;
-                    localStorage.setItem('pomoCount', pomoCount);
-                    document.getElementById('pomoCount').textContent = pomoCount;
+                    safeLocalStorageSet('pomoCount', pomoCount);
+                    const countEl = document.getElementById('pomoCount');
+                    if (countEl) countEl.textContent = pomoCount;
                     pomoSeconds = 300;
-                    document.getElementById('timerStatus').textContent = 'Break Time';
-                    new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE').play();
-                    alert('Focus session complete! Take a 5 min break.');
+                    if (status) status.textContent = 'Break Time';
+                    showToast('Focus session complete! Take a 5 min break.');
                 } else {
                     pomoSeconds = 1500;
-                    document.getElementById('timerStatus').textContent = 'Ready to focus';
-                    alert('Break over! Ready for next session?');
+                    if (status) status.textContent = 'Ready to focus';
+                    showToast('Break over! Ready for next session?');
                 }
-                document.getElementById('pomodoroBtn').textContent = 'Start Focus';
+                if (btn) btn.textContent = 'Start Focus';
                 updatePomoDisplay();
             }
         }, 1000);
@@ -283,26 +372,49 @@ function resetPomodoro() {
     pomoRunning = false;
     pomoSeconds = 1500;
     updatePomoDisplay();
-    document.getElementById('pomodoroBtn').textContent = 'Start Focus';
-    document.getElementById('timerStatus').textContent = 'Ready to focus';
+    const btn = document.getElementById('pomodoroBtn');
+    const status = document.getElementById('timerStatus');
+    if (btn) btn.textContent = 'Start Focus';
+    if (status) status.textContent = 'Ready to focus';
 }
 function updatePomoDisplay() {
     const mins = Math.floor(pomoSeconds / 60);
     const secs = pomoSeconds % 60;
-    document.getElementById('timerDisplay').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+    const display = document.getElementById('timerDisplay');
+    if (display) display.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
-// CITATION GENERATOR - Fixed
 function initCitation() {}
+function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+    } else {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            textArea.remove();
+            return Promise.resolve();
+        } catch (err) {
+            textArea.remove();
+            return Promise.reject(err);
+        }
+    }
+}
 function generateCitation() {
-    const type = document.getElementById('citeType').value;
-    const title = document.getElementById('citeTitle').value.trim();
-    const author = document.getElementById('citeAuthor').value.trim();
-    const year = document.getElementById('citeYear').value.trim();
-    const url = document.getElementById('citeUrl').value.trim();
+    const type = document.getElementById('citeType')?.value;
+    const title = document.getElementById('citeTitle')?.value.trim();
+    const author = document.getElementById('citeAuthor')?.value.trim();
+    const year = document.getElementById('citeYear')?.value.trim();
+    const url = document.getElementById('citeUrl')?.value.trim();
     
     if (!title || !author || !year) {
-        alert('Please fill Title, Author, and Year');
+        showToast('Please fill Title, Author, and Year');
         return;
     }
     
@@ -321,25 +433,27 @@ function generateCitation() {
     }
     
     const result = document.getElementById('citeResult');
+    if (!result) return;
+    const apaPlain = apa.replace(/<[^>]*>/g, '');
     result.innerHTML = `
         <p><strong>APA 7th:</strong><br>${apa}</p>
         <p style="margin-top:14px;"><strong>MLA 9th:</strong><br>${mla}</p>
         <p style="margin-top:14px;"><strong>Chicago 17th:</strong><br>${chicago}</p>
-        <button class="btn-secondary" onclick="navigator.clipboard.writeText(\`${apa.replace(/`/g, '\\`')}\`).then(()=>alert('APA copied!'))" style="margin-top:14px;width:100%;">Copy APA</button>
+        <button class="btn-secondary" onclick="copyToClipboard(\`${apaPlain.replace(/`/g, '\\`')}\`).then(()=>showToast('APA copied!')).catch(()=>showToast('Copy failed'))" style="margin-top:14px;width:100%;">Copy APA</button>
     `;
     result.classList.remove('hidden');
 }
 
-// READING TIME - Fixed
 function initReading() {}
 function calcReadingTime() {
-    const text = document.getElementById('readText').value;
-    const wpm = parseInt(document.getElementById('readSpeed').value) || 225;
+    const text = document.getElementById('readText')?.value || '';
+    const wpm = parseInt(document.getElementById('readSpeed')?.value) || 225;
     const words = text.trim() ? text.trim().split(/\s+/).filter(w => w).length : 0;
     const minutes = Math.floor(words / wpm);
     const seconds = Math.round((words / wpm * 60) % 60);
     
     const result = document.getElementById('readResult');
+    if (!result) return;
     result.innerHTML = `
         <h3>Estimated Reading Time: ${minutes} min ${seconds} sec</h3>
         <p>Total Words: ${words}</p>
@@ -350,7 +464,6 @@ function calcReadingTime() {
     result.classList.remove('hidden');
 }
 
-// CHARACTER COUNTER - New
 function initCharacter() {
     const textArea = document.getElementById('charText');
     if (!textArea) return;
@@ -358,14 +471,17 @@ function initCharacter() {
         const text = e.target.value;
         const total = text.length;
         const noSpace = text.replace(/\s/g, '').length;
-        document.getElementById('totalChar').textContent = total;
-        document.getElementById('noSpaceChar').textContent = noSpace;
-        document.getElementById('twitterLeft').textContent = 280 - total;
-        document.getElementById('smsCount').textContent = Math.ceil(total / 160);
+        const totalEl = document.getElementById('totalChar');
+        const noSpaceEl = document.getElementById('noSpaceChar');
+        const twitterEl = document.getElementById('twitterLeft');
+        const smsEl = document.getElementById('smsCount');
+        if (totalEl) totalEl.textContent = total;
+        if (noSpaceEl) noSpaceEl.textContent = noSpace;
+        if (twitterEl) twitterEl.textContent = 280 - total;
+        if (smsEl) smsEl.textContent = Math.ceil(total / 160);
     });
 }
 
-// PLACEHOLDER INITS for remaining tools
 function initPlanner() {}
 function initPercent() {}
 function initUnit() {}
@@ -373,9 +489,9 @@ function initTopic() {}
 function initTitle() {}
 function initPlagiarism() {}
 
-// FAQ + Privacy - Fixed buttons
 function showFAQ() {
-    alert(`ACAD FAQs:
+    showToast('Check console for FAQs');
+    console.log(`ACAD FAQs:
 
 Q: Is my data saved?
 A: Only on your device using localStorage. We collect nothing. Clear it anytime with Reset Data.
@@ -394,7 +510,8 @@ A: Yes. Study Planner, Unit Converter, and Topic Generator coming next update.`)
 }
 
 function showPrivacy() {
-    alert(`ACAD Privacy Policy:
+    showToast('Check console for Privacy Policy');
+    console.log(`ACAD Privacy Policy:
 
 We don't collect, store, or share any personal data. All calculations happen in your browser. 
 
@@ -405,4 +522,4 @@ What we DON'T do: No accounts, no tracking, no cookies, no analytics, no ads tra
 Third-party: AdSense may use cookies for ads. See Google's policy.
 
 Contact: support@acad.tools`);
-                              }
+        }
